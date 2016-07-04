@@ -15,16 +15,10 @@ class KWebView: UIWebView {
     
     var exportObject : AnyObject? = nil
     var keyBinding : String = "Native" //placeholder
-    var currentContext : JSContext?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         __globalWebViews.append(self)
-    }
-    
-    func getCurrentContext() -> JSContext?
-    {
-        return currentContext
     }
     
     func addJavascriptInterface<T : JSExport>(object: T, forKey key: String)
@@ -36,7 +30,6 @@ class KWebView: UIWebView {
     func bindContext(context: JSContext!)
     {
         context.setObject(exportObject, forKeyedSubscript: keyBinding)
-        currentContext = context
     }
 }
 
