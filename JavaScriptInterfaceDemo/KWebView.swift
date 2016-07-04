@@ -11,27 +11,14 @@ import UIKit
 import JavaScriptCore
 
 
-class KWebView: UIWebView {
-    
-    var exportObject : AnyObject? = nil
-    var keyBinding : String = "Native" //placeholder
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+extension UIWebView {
+    func addJavascriptInterface<T : JSExport>(object: T, forKey key: String){
         __globalWebViews.append(self)
-    }
-    
-    func addJavascriptInterface<T : JSExport>(object: T, forKey key: String)
-    {
-        exportObject = object
-        keyBinding = key
-    }
-    
-    func bindContext(context: JSContext!)
-    {
-        context.setObject(exportObject, forKeyedSubscript: keyBinding)
+        __globalKeyBinding = key
+        __globalExportObject = object
     }
 }
+
 
 extension NSObject
 {
@@ -44,10 +31,7 @@ extension NSObject
                 webView.stringByEvaluatingJavaScriptFromString("var \(checksum) = '\(checksum)'")
                 if context.objectForKeyedSubscript(checksum).toString() == checksum
                 {
-                    if let webView = webView as? KWebView
-                    {
-                        webView.bindContext(context)
-                    }
+                    context.setObject(__globalExportObject, forKeyedSubscript: __globalKeyBinding)                    
                 }
             }
         }
@@ -64,4 +48,5 @@ extension NSObject
 }
 
 var __globalWebViews : [UIWebView] = []
-
+var __globalExportObject : AnyObject? = nil
+var __globalKeyBinding : String = "Native" //placeholder
