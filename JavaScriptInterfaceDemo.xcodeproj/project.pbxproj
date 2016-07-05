@@ -12,9 +12,9 @@
 		BAE3D6931BA53660002F9581 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAE3D6911BA53660002F9581 /* Main.storyboard */; };
 		BAE3D6951BA53660002F9581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAE3D6941BA53660002F9581 /* Assets.xcassets */; };
 		BAE3D6981BA53660002F9581 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAE3D6961BA53660002F9581 /* LaunchScreen.storyboard */; };
-		BAE3D6A11BA536A4002F9581 /* JSInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE3D69F1BA536A4002F9581 /* JSInterface.swift */; settings = {ASSET_TAGS = (); }; };
-		BAE3D6A21BA536A4002F9581 /* KWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE3D6A01BA536A4002F9581 /* KWebView.swift */; settings = {ASSET_TAGS = (); }; };
-		BAE3D6A41BA5373D002F9581 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = BAE3D6A31BA5373D002F9581 /* index.html */; settings = {ASSET_TAGS = (); }; };
+		BAE3D6A11BA536A4002F9581 /* JSInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE3D69F1BA536A4002F9581 /* JSInterface.swift */; };
+		BAE3D6A21BA536A4002F9581 /* UIWebViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE3D6A01BA536A4002F9581 /* UIWebViewExt.swift */; };
+		BAE3D6A41BA5373D002F9581 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = BAE3D6A31BA5373D002F9581 /* index.html */; };
 		BAE3D6A61BA538FC002F9581 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE3D6A51BA538FC002F9581 /* JavaScriptCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,7 +27,7 @@
 		BAE3D6971BA53660002F9581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BAE3D6991BA53660002F9581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAE3D69F1BA536A4002F9581 /* JSInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSInterface.swift; sourceTree = "<group>"; };
-		BAE3D6A01BA536A4002F9581 /* KWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KWebView.swift; sourceTree = "<group>"; };
+		BAE3D6A01BA536A4002F9581 /* UIWebViewExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWebViewExt.swift; sourceTree = "<group>"; };
 		BAE3D6A31BA5373D002F9581 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		BAE3D6A51BA538FC002F9581 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -66,7 +66,7 @@
 			children = (
 				BAE3D6A31BA5373D002F9581 /* index.html */,
 				BAE3D69F1BA536A4002F9581 /* JSInterface.swift */,
-				BAE3D6A01BA536A4002F9581 /* KWebView.swift */,
+				BAE3D6A01BA536A4002F9581 /* UIWebViewExt.swift */,
 				BAE3D68D1BA53660002F9581 /* AppDelegate.swift */,
 				BAE3D68F1BA53660002F9581 /* ViewController.swift */,
 				BAE3D6911BA53660002F9581 /* Main.storyboard */,
@@ -149,7 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BAE3D6901BA53660002F9581 /* ViewController.swift in Sources */,
-				BAE3D6A21BA536A4002F9581 /* KWebView.swift in Sources */,
+				BAE3D6A21BA536A4002F9581 /* UIWebViewExt.swift in Sources */,
 				BAE3D6A11BA536A4002F9581 /* JSInterface.swift in Sources */,
 				BAE3D68E1BA53660002F9581 /* AppDelegate.swift in Sources */,
 			);
