@@ -1,5 +1,5 @@
 # JavaScriptInterface
-KWebView help you to call native code from Javascript in the iOS application.
+UIWebview extension help you to call native code from Javascript in the iOS application.
 Written by Swift 2.0. It's similar WebView.addJavascriptInterface in the Android application.
 
 ## Setting your project
@@ -50,17 +50,14 @@ class JSInterface : NSObject, MyExport
 }
 ```
 
-Step 4: 
-From Indentity Inspector of your UIWebView, at Custom class section, update Class attribute to KWebView
-
-Step 5:
+Step 4:
 Create an outlet to the webview in your view controller
 ```swift
-@IBOutlet weak var webView : KWebView!
+@IBOutlet weak var webView : UIWebView!
 ```
 
-Step 6: 
-Add java script interface as below:
+Step 5: 
+Add java script interface as below at viewDidLoad:
 ```swift
 self.webView.addJavascriptInterface(JSInterface(), forKey: "Native");
 ```
