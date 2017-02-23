@@ -1,6 +1,6 @@
 # JavaScriptInterface
 UIWebview extension help you to call native code from Javascript in the iOS application.
-Written by Swift 2.0. It's similar WebView.addJavascriptInterface in the Android application.
+Written by Swift 3.0. It's similar WebView.addJavascriptInterface in the Android application.
 
 ## Setting your project
 
@@ -15,10 +15,10 @@ For example:
 ```swift
 @objc protocol MyExport : JSExport
 {
-    func check(message : String)
-    func sayGreeting(message: String, _ name: String)
-    func anotherSayGreeting(message: String, name: String)
-    func showDialog(title: String, _ message : String)
+    func check(_ message : String)
+    func sayGreeting(_ message: String, _ name: String)
+    func anotherSayGreeting(_ message: String, name: String)
+    func showDialog(_ title: String, _ message : String)
 }
 ```
 
@@ -27,21 +27,21 @@ Define a class to implement native functions above.
 ```swift
 class JSInterface : NSObject, MyExport
 {
-    func check(message: String) {
+    func check(_ message: String) {
         print("JS Interface works!")
     }
     
-    func sayGreeting(message: String, _ name: String)
+    func sayGreeting(_ message: String, _ name: String)
     {
         print("sayGreeting: \(message): \(name)")
     }
     
-    func anotherSayGreeting(message: String, name: String)
+    func anotherSayGreeting(_ message: String, name: String)
     {
         print("anotherSayGreeting: \(message): \(name)")
     }
 
-    func showDialog(title: String, _ message : String)
+    func showDialog(_ title: String, _ message : String)
     {
         dispatch_async(dispatch_get_main_queue(), {
             UIAlertView(title: title, message: message, delegate: nil, cancelButtonTitle: "OK").show()
