@@ -12,7 +12,7 @@ import JavaScriptCore
 
 
 extension UIWebView {
-    func addJavascriptInterface<T : JSExport>(object: T, forKey key: String){
+    func addJavascriptInterface<T : JSExport>(_ object: T, forKey key: String){
         __globalWebViews.append(self)
         __globalKeyBinding = key
         __globalExportObject = object
@@ -22,27 +22,27 @@ extension UIWebView {
 
 extension NSObject
 {
-    func webView(webView: UIWebView!, didCreateJavaScriptContext context: JSContext!, forFrame frame: AnyObject!)
+    func webView(_ webView: UIWebView!, didCreateJavaScriptContext context: JSContext!, forFrame frame: AnyObject!)
     {
         let notifyDidCreateJavaScriptContext = {() -> Void in
             for webView in __globalWebViews
             {
                 let checksum = "__KKKWebView\(webView.hash)"
-                webView.stringByEvaluatingJavaScriptFromString("var \(checksum) = '\(checksum)'")
+                webView.stringByEvaluatingJavaScript(from: "var \(checksum) = '\(checksum)'")
                 if context.objectForKeyedSubscript(checksum).toString() == checksum
                 {
-                    context.setObject(__globalExportObject, forKeyedSubscript: __globalKeyBinding)                    
+                    context.setObject(__globalExportObject, forKeyedSubscript: __globalKeyBinding as (NSCopying & NSObjectProtocol)!)                    
                 }
             }
         }
         
-        if (NSThread.isMainThread())
+        if (Thread.isMainThread)
         {
             notifyDidCreateJavaScriptContext()
         }
         else
         {
-            dispatch_async(dispatch_get_main_queue(), notifyDidCreateJavaScriptContext)
+            DispatchQueue.main.async(execute: notifyDidCreateJavaScriptContext)
         }
     }
 }

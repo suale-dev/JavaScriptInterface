@@ -14,14 +14,14 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let indexPath = NSBundle.mainBundle().pathForResource("index", ofType: "html", inDirectory: "/")
+        let indexPath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "/")
         if let indexPath = indexPath
         {
             do
             {
-                let htmlContent = try String(contentsOfFile: indexPath, encoding: NSUTF8StringEncoding)
+                let htmlContent = try String(contentsOfFile: indexPath, encoding: String.Encoding.utf8)
                 
-                let base = NSBundle.mainBundle().resourceURL
+                let base = Bundle.main.resourceURL
                 
                 self.webView.addJavascriptInterface(JSInterface(), forKey: "Native");
                 
