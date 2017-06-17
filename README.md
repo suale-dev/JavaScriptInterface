@@ -1,6 +1,7 @@
 # JavaScriptInterface
-UIWebview extension help you to call native code from Javascript in the iOS application.
-Written by Swift 3.0. It's similar WebView.addJavascriptInterface in the Android application.
+UIWebview extension help you to call native code from Javascript in the iOS application. And call Javascript function from iOS Application.
+
+Support Swift 3.x. It's similar WebView.addJavascriptInterface in the Android application.
 
 ## Setting your project
 
@@ -61,13 +62,39 @@ Add java script interface as below at viewDidLoad:
 ```swift
 self.webView.addJavascriptInterface(JSInterface(), forKey: "Native");
 ```
-##Usage
-Now to call those native functions above from JavaScipt is loaded your webview, just call:
+# Usage
+
+## Now to call those native functions above from JavaScipt is loaded your webview, just call:
 
 ```swift
 Native.check()
 
 Native.sayGreeting('Hello', 'JavaScript Interface')
+
+```
+
+## Define a function showAlert in Javascript
+```javascript
+<script>
+    function showAlert(agr1, agr2){
+        alert('agr1: ' + agr1 + ' - agr2: ' + agr2);
+        return 'return from javascript';
+    }
+</script>
+```
+
+## Now you can call Javascript function from iOS Application, from ViewController
+```swift
+let result = self.webView.callJSMethod(name: "showAlert", agruments: "Sua", "80.51")
+        
+print("result: \(result ?? "no return value")")
+```
+
+# Avoid memmory leak, at deinit of ViewController:
+```swift
+deinit {
+        self.webView.removeJavascriptInterfaces()
+    }
 
 ```
 
