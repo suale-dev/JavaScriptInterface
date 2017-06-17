@@ -13,9 +13,46 @@ import JavaScriptCore
 
 extension UIWebView {
     func addJavascriptInterface<T : JSExport>(_ object: T, forKey key: String){
-        __globalWebViews.append(self)
-        __globalKeyBinding = key
-        __globalExportObject = object
+        if let existed = __jsExportDatas.first(where: { (exportData) -> Bool in
+            return exportData.webView === self && exportData.key == key
+        })
+        {
+            existed.export = object
+        }
+        else {
+            let exportData = JSExportData(webView: self, export: object, key: key)
+            __jsExportDatas.append(exportData)
+        }
+    }
+    
+    func removeJavascriptInterfaces(){
+        
+        let exportDatas = __jsExportDatas.filter({ (exportData) -> Bool in
+            exportData.webView === self
+        })
+        
+        for exportData in exportDatas {
+            let context = exportData.context
+            context?.setObject(nil, forKeyedSubscript: exportData.key as (NSCopying & NSObjectProtocol)!)
+        }
+        
+        __jsExportDatas = __jsExportDatas.filter({ (exportData) -> Bool in
+            exportData.webView !== self
+        })
+        print("count: \(__jsExportDatas.count)")
+        
+    }
+    
+    func callJSMethod(name: String, agruments: String...) -> String?{
+        var agrumentString = ""
+        for agrument in agruments {
+            if agrumentString.characters.count > 0 {
+                agrumentString = "\(agrumentString),"
+            }
+            agrumentString = "\(agrumentString)'\(agrument)'"
+        }
+        
+        return self.stringByEvaluatingJavaScript(from: "\(name)(\(agrumentString))")
     }
 }
 
@@ -25,13 +62,18 @@ extension NSObject
     func webView(_ webView: UIWebView!, didCreateJavaScriptContext context: JSContext!, forFrame frame: AnyObject!)
     {
         let notifyDidCreateJavaScriptContext = {() -> Void in
-            for webView in __globalWebViews
+            for exportData in __jsExportDatas
             {
+                if exportData.export == nil{
+                    continue
+                }                                
+                
                 let checksum = "__KKKWebView\(webView.hash)"
                 webView.stringByEvaluatingJavaScript(from: "var \(checksum) = '\(checksum)'")
                 if context.objectForKeyedSubscript(checksum).toString() == checksum
                 {
-                    context.setObject(__globalExportObject, forKeyedSubscript: __globalKeyBinding as (NSCopying & NSObjectProtocol)!)                    
+                    context.setObject(exportData.export!, forKeyedSubscript: exportData.key as (NSCopying & NSObjectProtocol)!)
+                    exportData.context = context
                 }
             }
         }
@@ -47,6 +89,16 @@ extension NSObject
     }
 }
 
-var __globalWebViews : [UIWebView] = []
-var __globalExportObject : AnyObject? = nil
-var __globalKeyBinding : String = "Native" //placeholder
+class JSExportData{
+    weak var webView: UIWebView?
+    var export : JSExport?
+    var key: String = "Native"
+    var context: JSContext?
+    
+    init(webView: UIWebView, export: JSExport, key: String = "Native") {
+        self.webView = webView
+        self.export = export
+        self.key = key
+    }
+}
+var __jsExportDatas : [JSExportData] = []

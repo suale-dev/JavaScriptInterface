@@ -35,6 +35,16 @@ class ViewController: UIViewController {
         }
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    @IBAction func showAlert(){
+        let result = self.webView.callJSMethod(name: "showAlert", agruments: "Sua", "80.51")
+        
+        print("result: \(result ?? "no return value")")
+    }
+    
+    deinit {
+        self.webView.removeJavascriptInterfaces()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
