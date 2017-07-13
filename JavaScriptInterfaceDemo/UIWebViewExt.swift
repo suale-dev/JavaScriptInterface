@@ -59,7 +59,7 @@ extension UIWebView {
 
 extension NSObject
 {
-    func webView(_ webView: UIWebView!, didCreateJavaScriptContext context: JSContext!, forFrame frame: AnyObject!)
+    func webView(_ webView: AnyObject!, didCreateJavaScriptContext context: JSContext!, forFrame frame: AnyObject!)
     {
         let notifyDidCreateJavaScriptContext = {() -> Void in
             for exportData in __jsExportDatas
@@ -67,7 +67,7 @@ extension NSObject
                 if exportData.export == nil{
                     continue
                 }                                
-                
+                let webView = exportData.webView!
                 let checksum = "__KKKWebView\(webView.hash)"
                 webView.stringByEvaluatingJavaScript(from: "var \(checksum) = '\(checksum)'")
                 if context.objectForKeyedSubscript(checksum).toString() == checksum
