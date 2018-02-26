@@ -1,7 +1,7 @@
 # JavaScriptInterface
 UIWebview extension help you to call native code from Javascript in the iOS application. And call Javascript function from iOS Application.
 
-Support Swift 3.x. It's similar WebView.addJavascriptInterface in the Android application.
+Support Swift 4.0. It's similar WebView.addJavascriptInterface in the Android application.
 
 ## Setting your project
 
