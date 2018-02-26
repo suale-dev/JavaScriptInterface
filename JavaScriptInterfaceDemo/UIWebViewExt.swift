@@ -46,7 +46,7 @@ extension UIWebView {
     func callJSMethod(name: String, agruments: String...) -> String?{
         var agrumentString = ""
         for agrument in agruments {
-            if agrumentString.characters.count > 0 {
+            if agrumentString.count > 0 {
                 agrumentString = "\(agrumentString),"
             }
             agrumentString = "\(agrumentString)'\(agrument)'"
@@ -59,7 +59,7 @@ extension UIWebView {
 
 extension NSObject
 {
-    func webView(_ webView: AnyObject!, didCreateJavaScriptContext context: JSContext!, forFrame frame: AnyObject!)
+    @objc func webView(_ webView: AnyObject!, didCreateJavaScriptContext context: JSContext!, forFrame frame: AnyObject!)
     {
         let notifyDidCreateJavaScriptContext = {() -> Void in
             for exportData in __jsExportDatas
