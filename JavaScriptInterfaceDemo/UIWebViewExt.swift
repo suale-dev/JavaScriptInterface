@@ -33,7 +33,7 @@ extension UIWebView {
         
         for exportData in exportDatas {
             let context = exportData.context
-            context?.setObject(nil, forKeyedSubscript: exportData.key as (NSCopying & NSObjectProtocol)!)
+            context?.setObject(nil, forKeyedSubscript: exportData.key as (NSCopying & NSObjectProtocol)?)
         }
         
         __jsExportDatas = __jsExportDatas.filter({ (exportData) -> Bool in
@@ -43,19 +43,42 @@ extension UIWebView {
         
     }
     
-    func callJSMethod(name: String, agruments: String...) -> String?{
+    @discardableResult
+    func callJSMethod(name: String, agruments: StringConvertable...) -> String?{
         var agrumentString = ""
         for agrument in agruments {
             if agrumentString.count > 0 {
                 agrumentString = "\(agrumentString),"
             }
-            agrumentString = "\(agrumentString)'\(agrument)'"
+            if agrument is String {
+                agrumentString = "\(agrumentString)'\(agrument)'"
+            } else if agrument is NSNumber {
+                agrumentString = "\(agrumentString)\(agrument)"
+            } else  if let agrument = agrument as? [String: Any] {
+                if let json = try? JSONSerialization.data(withJSONObject: agrument, options: []), let jsonString = String(data: json, encoding: .utf8) {
+                    agrumentString = "\(agrumentString)\(jsonString)"
+                } else {
+                    fatalError("Only support [String: String] or [String: Numberic] !!")
+                }
+            } else {
+                fatalError("Only support string or number or dictionary !!")
+            }
         }
-        
-        return self.stringByEvaluatingJavaScript(from: "\(name)(\(agrumentString))")
+        let js = "\(name)(\(agrumentString))"
+        print("call: \(js)")
+        return self.stringByEvaluatingJavaScript(from: js)
     }
 }
 
+protocol StringConvertable {}
+extension Int: StringConvertable {}
+extension Float: StringConvertable {}
+extension Double: StringConvertable {}
+extension CGFloat: StringConvertable {}
+extension String: StringConvertable {}
+extension Dictionary: StringConvertable {}
+//TODO: update callJSMethod to support Array
+//extension Array: StringConvertable {}
 
 extension NSObject
 {
@@ -72,7 +95,7 @@ extension NSObject
                 webView.stringByEvaluatingJavaScript(from: "var \(checksum) = '\(checksum)'")
                 if context.objectForKeyedSubscript(checksum).toString() == checksum
                 {
-                    context.setObject(exportData.export!, forKeyedSubscript: exportData.key as (NSCopying & NSObjectProtocol)!)
+                    context.setObject(exportData.export!, forKeyedSubscript: exportData.key as (NSCopying & NSObjectProtocol)?)
                     exportData.context = context
                 }
             }
